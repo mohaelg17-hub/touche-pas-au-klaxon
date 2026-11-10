@@ -1,2 +1,9 @@
 @import "variables";
 @import "bootstrap/scss/bootstrap";
+
+// En-tete de tableau : couleur secondaire de la palette
+.table-klaxon > thead {
+    --bs-table-bg: #{$secondary};
+    --bs-table-color: #{$white};
+    --bs-table-border-color: #{$secondary};
+}

@@ -11859,5 +11859,10 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.table-klaxon > thead {
+  --bs-table-bg: #384050;
+  --bs-table-color: #fff;
+  --bs-table-border-color: #384050;
+}
 
 /*# sourceMappingURL=main.css.map */

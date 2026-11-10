@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use DateTimeImmutable;
 use RuntimeException;
 
 /**
@@ -40,6 +41,22 @@ final class View
     public static function e(mixed $value): string
     {
         return htmlspecialchars(is_scalar($value) ? (string) $value : '', ENT_QUOTES, 'UTF-8');
+    }
+
+    /**
+     * Formate la partie date d'un DATETIME SQL (ex. 15/11/26).
+     */
+    public static function date(string $datetime): string
+    {
+        return (new DateTimeImmutable($datetime))->format('d/m/y');
+    }
+
+    /**
+     * Formate la partie heure d'un DATETIME SQL (ex. 08:30).
+     */
+    public static function time(string $datetime): string
+    {
+        return (new DateTimeImmutable($datetime))->format('H:i');
     }
 
     /**

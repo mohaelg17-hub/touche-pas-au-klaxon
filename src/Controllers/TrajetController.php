@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Database;
+use App\Models\TrajetRepository;
 
 /**
  * Gere les pages liees aux trajets.
@@ -18,6 +20,11 @@ final class TrajetController extends Controller
      */
     public function index(array $params = []): void
     {
-        $this->render('trajets/index', ['title' => 'Trajets proposés']);
+        $repository = new TrajetRepository(Database::getConnection());
+
+        $this->render('trajets/index', [
+            'title'   => 'Trajets proposés',
+            'trajets' => $repository->findAvailable(),
+        ]);
     }
 }

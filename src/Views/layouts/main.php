@@ -8,11 +8,7 @@
     <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <header class="container py-3">
-        <nav class="navbar bg-light border rounded px-3">
-            <a class="navbar-brand" href="/">Touche pas au klaxon</a>
-        </nav>
-    </header>
+       <?php require __DIR__ . '/../partials/header_visiteur.php'; ?>
 
     <main class="container flex-grow-1">
         <?= $content ?>
