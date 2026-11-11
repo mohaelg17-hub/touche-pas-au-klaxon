@@ -4,7 +4,9 @@ use App\Core\View;
 
 /** @var list<array<string, mixed>> $trajets */
 ?>
-<h1 class="h2 my-4">Pour obtenir plus d'informations sur un trajet, veuillez vous connecter</h1>
+<h1 class="h2 my-4">
+    <?= \App\Core\Auth::check() ? 'Trajets proposés' : 'Pour obtenir plus d\'informations sur un trajet, veuillez vous connecter' ?>
+</h1>
 
 <?php if ($trajets === []) : ?>
     <p class="alert alert-secondary">Aucun trajet disponible pour le moment.</p>

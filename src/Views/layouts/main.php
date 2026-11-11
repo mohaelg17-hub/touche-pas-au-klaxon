@@ -1,4 +1,10 @@
-<?php use App\Core\View; ?>
+<?php
+
+use App\Core\Auth;
+use App\Core\View;
+
+$header = Auth::isAdmin() ? 'header_admin' : (Auth::check() ? 'header_user' : 'header_visiteur');
+?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -8,9 +14,10 @@
     <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
-       <?php require __DIR__ . '/../partials/header_visiteur.php'; ?>
+    <?php require __DIR__ . '/../partials/' . $header . '.php'; ?>
 
     <main class="container flex-grow-1">
+        <?php require __DIR__ . '/../partials/flash.php'; ?>
         <?= $content ?>
     </main>
 
