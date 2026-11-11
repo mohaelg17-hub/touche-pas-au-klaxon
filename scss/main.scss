@@ -1,7 +1,14 @@
+// 1. Palette imposee (variables Bootstrap) : toujours AVANT Bootstrap
 @import "variables";
-@import "bootstrap/scss/bootstrap";
 
-// En-tete de tableau : couleur secondaire de la palette
+// 2. Dossier des polices d'icones (copiees dans public/assets/fonts)
+$bootstrap-icons-font-dir: "/assets/fonts";
+
+// 3. Bootstrap et ses icones
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons";
+
+// 4. Styles propres a l'application
 .table-klaxon > thead {
     --bs-table-bg: #{$secondary};
     --bs-table-color: #{$white};

@@ -13,6 +13,10 @@ $header = Auth::isAdmin() ? 'header_admin' : (Auth::check() ? 'header_user' : 'h
     <title><?= View::e($title ?? 'Touche pas au klaxon') ?></title>
     <link rel="stylesheet" href="/assets/css/main.css">
 </head>
+
+ <script src="/assets/js/bootstrap.bundle.min.js"></script>
+ <script src="/assets/js/app.js"></script>
+
 <body class="d-flex flex-column min-vh-100">
     <?php require __DIR__ . '/../partials/' . $header . '.php'; ?>
 

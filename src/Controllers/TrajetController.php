@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\Auth;
 use App\Core\Controller;
 use App\Core\Database;
 use App\Models\TrajetRepository;
@@ -18,13 +19,13 @@ final class TrajetController extends Controller
      *
      * @param array<string, string> $params Parametres de l'URL
      */
-    public function index(array $params = []): void
+        public function index(array $params = []): void
     {
         $repository = new TrajetRepository(Database::getConnection());
 
         $this->render('trajets/index', [
             'title'   => 'Trajets proposés',
-            'trajets' => $repository->findAvailable(),
+            'trajets' => $repository->findAvailable(Auth::check()),
         ]);
     }
 }

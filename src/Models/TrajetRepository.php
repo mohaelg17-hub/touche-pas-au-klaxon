@@ -19,22 +19,36 @@ final class TrajetRepository
      * Retourne les trajets a venir qui ont encore des places,
      * tries par date de depart croissante.
      *
+     * @param bool $withDetails Ajoute l'auteur, ses coordonnees et le nombre total de places
+     *                          (reserve aux utilisateurs connectes).
+     *
      * @return list<array<string, mixed>>
      */
-    public function findAvailable(): array
+    public function findAvailable(bool $withDetails = false): array
     {
-        $sql = 'SELECT t.id_trajet,
+        $columns = $withDetails
+            ? ', t.places_total, t.id_employe,
+               e.nom AS auteur_nom, e.prenom AS auteur_prenom,
+               e.telephone AS auteur_telephone, e.email AS auteur_email'
+            : '';
+        $join = $withDetails
+            ? 'INNER JOIN employe e ON e.id_employe = t.id_employe'
+            : '';
+
+        $sql = "SELECT t.id_trajet,
                        ad.nom AS agence_depart,
                        aa.nom AS agence_arrivee,
                        t.date_depart,
                        t.date_arrivee,
                        t.places_dispo
+                       $columns
                 FROM trajet t
                 INNER JOIN agence ad ON ad.id_agence = t.id_agence_depart
                 INNER JOIN agence aa ON aa.id_agence = t.id_agence_arrivee
+                $join
                 WHERE t.places_dispo > 0
                   AND t.date_depart > NOW()
-                ORDER BY t.date_depart ASC';
+                ORDER BY t.date_depart ASC";
 
         $stmt = $this->pdo->query($sql);
         $rows = $stmt === false ? [] : $stmt->fetchAll(PDO::FETCH_ASSOC);

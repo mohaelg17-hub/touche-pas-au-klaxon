@@ -60,6 +60,17 @@ final class View
     }
 
     /**
+     * Formate un numero de telephone a 10 chiffres par paires (ex. 06 12 34 56 78).
+     * Retourne le numero tel quel s'il n'a pas 10 chiffres.
+     */
+    public static function phone(string $number): string
+    {
+        $digits = preg_replace('/\D+/', '', $number) ?? '';
+
+        return strlen($digits) === 10 ? trim(chunk_split($digits, 2, ' ')) : $number;
+    }
+
+    /**
      * Execute un fichier de vue et retourne son rendu sous forme de texte.
      *
      * @param array<string, mixed> $data
