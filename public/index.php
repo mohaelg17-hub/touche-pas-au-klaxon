@@ -9,6 +9,8 @@ use App\Core\Router;
 use App\Core\Session;
 use App\Core\View;
 
+date_default_timezone_set('Europe/Paris');
+
 $config = require dirname(__DIR__) . '/config/config.php';
 
 Database::configure($config['db']);

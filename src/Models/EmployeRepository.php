@@ -29,4 +29,21 @@ final class EmployeRepository
         /** @var array<string, mixed>|false $row */
         return $row === false ? null : $row;
     }
+
+    /**
+     * Retourne les informations publiques d'un employe (sans mot de passe), ou null.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function findById(int $id): ?array
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT id_employe, nom, prenom, telephone, email, role FROM employe WHERE id_employe = :id'
+        );
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        /** @var array<string, mixed>|false $row */
+        return $row === false ? null : $row;
+    }
 }

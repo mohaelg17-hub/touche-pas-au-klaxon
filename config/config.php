@@ -8,7 +8,7 @@ return [
         'port'     => 3306,
         'name'     => 'klaxon',
         'user'     => 'root',
-        'password' => '',
+        'password' => 'Klaxon2026root',
         'charset'  => 'utf8mb4',
     ],
     'app' => [

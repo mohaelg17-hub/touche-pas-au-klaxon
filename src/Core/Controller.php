@@ -29,6 +29,23 @@ abstract class Controller
     }
 
     /**
+     * Exige un utilisateur connecte, sinon redirige vers la page de connexion.
+     *
+     * @return int Identifiant de l'utilisateur connecte
+     */
+    protected function requireLogin(): int
+    {
+        $id = Auth::id();
+
+        if ($id === null) {
+            Flash::add('warning', 'Veuillez vous connecter pour accéder à cette page.');
+            $this->redirect('/login');
+        }
+
+        return $id;
+    }
+
+    /**
      * Lit un champ de formulaire POST (texte uniquement).
      *
      * @param bool $trim Retire les espaces autour (a desactiver pour les mots de passe)
@@ -42,5 +59,23 @@ abstract class Controller
         }
 
         return $trim ? trim($value) : $value;
+    }
+
+    /**
+     * Lit plusieurs champs de formulaire POST.
+     *
+     * @param list<string> $keys Noms des champs
+     *
+     * @return array<string, string>
+     */
+    protected function inputs(array $keys): array
+    {
+        $values = [];
+
+        foreach ($keys as $key) {
+            $values[$key] = $this->input($key);
+        }
+
+        return $values;
     }
 }

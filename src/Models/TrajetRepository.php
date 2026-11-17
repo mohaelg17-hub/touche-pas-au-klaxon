@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Validators\TrajetValidator;
 use PDO;
 
 /**
  * Acces aux donnees de la table "trajet".
+ *
+ * @phpstan-import-type TrajetData from TrajetValidator
  */
 final class TrajetRepository
 {
@@ -55,5 +58,25 @@ final class TrajetRepository
 
         /** @var list<array<string, mixed>> $rows */
         return $rows;
+    }
+
+    /**
+     * Cree un trajet et retourne son identifiant.
+     *
+     * @param TrajetData $data Donnees deja validees
+     */
+    public function create(array $data): int
+    {
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO trajet
+                (id_agence_depart, id_agence_arrivee, date_depart, date_arrivee,
+                 places_total, places_dispo, id_employe)
+             VALUES
+                (:id_agence_depart, :id_agence_arrivee, :date_depart, :date_arrivee,
+                 :places_total, :places_dispo, :id_employe)'
+        );
+        $stmt->execute($data);
+
+        return (int) $this->pdo->lastInsertId();
     }
 }

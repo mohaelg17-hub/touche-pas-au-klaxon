@@ -15,4 +15,7 @@ return static function (Router $router): void {
     $router->get('/login', [AuthController::class, 'showLogin']);
     $router->post('/login', [AuthController::class, 'login']);
     $router->post('/logout', [AuthController::class, 'logout']);
+
+    $router->get('/trajets/create', [TrajetController::class, 'create']);
+    $router->post('/trajets/create', [TrajetController::class, 'store']);
 };
