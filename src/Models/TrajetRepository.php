@@ -61,6 +61,36 @@ final class TrajetRepository
     }
 
     /**
+     * Retourne TOUS les trajets (passes et complets compris) avec leurs agences
+     * et leur auteur, pour l'espace administrateur.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function findAll(): array
+    {
+        $stmt = $this->pdo->query(
+            'SELECT t.id_trajet,
+                    ad.nom AS agence_depart,
+                    aa.nom AS agence_arrivee,
+                    t.date_depart,
+                    t.date_arrivee,
+                    t.places_total,
+                    t.places_dispo,
+                    e.nom AS auteur_nom,
+                    e.prenom AS auteur_prenom
+             FROM trajet t
+             INNER JOIN agence ad ON ad.id_agence = t.id_agence_depart
+             INNER JOIN agence aa ON aa.id_agence = t.id_agence_arrivee
+             INNER JOIN employe e ON e.id_employe = t.id_employe
+             ORDER BY t.date_depart ASC'
+        );
+        $rows = $stmt === false ? [] : $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        /** @var list<array<string, mixed>> $rows */
+        return $rows;
+    }
+
+    /**
      * Retourne un trajet (colonnes brutes de la table) ou null s'il n'existe pas.
      *
      * @return array<string, mixed>|null

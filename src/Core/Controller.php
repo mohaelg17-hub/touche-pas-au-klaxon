@@ -58,6 +58,36 @@ abstract class Controller
     }
 
     /**
+     * Exige un administrateur : redirige vers la connexion si personne n'est connecte,
+     * affiche une page 403 si l'utilisateur n'est pas administrateur.
+     *
+     * @return int Identifiant de l'administrateur connecte
+     */
+    protected function requireAdmin(): int
+    {
+        $id = $this->requireLogin();
+
+        if (!Auth::isAdmin()) {
+            $this->abort(403);
+        }
+
+        return $id;
+    }
+
+    /**
+     * Verifie le jeton CSRF du formulaire envoye ; sinon redirige avec un message.
+     *
+     * @param string $redirectTo Adresse de redirection en cas d'echec
+     */
+    protected function verifyCsrf(string $redirectTo): void
+    {
+        if (!Csrf::verify($this->input('csrf_token'))) {
+            Flash::add('danger', 'Session expirée, veuillez réessayer.');
+            $this->redirect($redirectTo);
+        }
+    }
+
+    /**
      * Lit un champ de formulaire POST (texte uniquement).
      *
      * @param bool $trim Retire les espaces autour (a desactiver pour les mots de passe)

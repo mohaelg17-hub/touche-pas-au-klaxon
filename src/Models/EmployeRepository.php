@@ -46,4 +46,20 @@ final class EmployeRepository
         /** @var array<string, mixed>|false $row */
         return $row === false ? null : $row;
     }
+
+    /**
+     * Retourne tous les employes (sans mot de passe), tries par nom puis prenom.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function findAll(): array
+    {
+        $stmt = $this->pdo->query(
+            'SELECT id_employe, nom, prenom, telephone, email, role FROM employe ORDER BY nom, prenom'
+        );
+        $rows = $stmt === false ? [] : $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        /** @var list<array<string, mixed>> $rows */
+        return $rows;
+    }
 }
