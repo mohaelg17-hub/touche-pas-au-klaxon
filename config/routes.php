@@ -18,4 +18,7 @@ return static function (Router $router): void {
 
     $router->get('/trajets/create', [TrajetController::class, 'create']);
     $router->post('/trajets/create', [TrajetController::class, 'store']);
+    $router->get('/trajets/{id}/edit', [TrajetController::class, 'edit']);
+    $router->post('/trajets/{id}/edit', [TrajetController::class, 'update']);
+    $router->post('/trajets/{id}/delete', [TrajetController::class, 'delete']);
 };

@@ -29,6 +29,18 @@ abstract class Controller
     }
 
     /**
+     * Affiche une page d'erreur (vue errors/<code>) et arrete le script.
+     *
+     * @param int $status Code HTTP (ex. 403, 404)
+     */
+    protected function abort(int $status): never
+    {
+        http_response_code($status);
+        View::render('errors/' . $status);
+        exit;
+    }
+
+    /**
      * Exige un utilisateur connecte, sinon redirige vers la page de connexion.
      *
      * @return int Identifiant de l'utilisateur connecte

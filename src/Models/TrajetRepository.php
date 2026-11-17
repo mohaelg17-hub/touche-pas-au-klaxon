@@ -61,6 +61,21 @@ final class TrajetRepository
     }
 
     /**
+     * Retourne un trajet (colonnes brutes de la table) ou null s'il n'existe pas.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function findById(int $id): ?array
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM trajet WHERE id_trajet = :id');
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        /** @var array<string, mixed>|false $row */
+        return $row === false ? null : $row;
+    }
+
+    /**
      * Cree un trajet et retourne son identifiant.
      *
      * @param TrajetData $data Donnees deja validees
@@ -78,5 +93,49 @@ final class TrajetRepository
         $stmt->execute($data);
 
         return (int) $this->pdo->lastInsertId();
+    }
+
+    /**
+     * Modifie un trajet. L'auteur (id_employe) n'est jamais modifie.
+     *
+     * @param TrajetData $data Donnees deja validees
+     *
+     * @return bool true si la requete a reussi
+     */
+    public function update(int $id, array $data): bool
+    {
+        $stmt = $this->pdo->prepare(
+            'UPDATE trajet
+                SET id_agence_depart  = :id_agence_depart,
+                    id_agence_arrivee = :id_agence_arrivee,
+                    date_depart       = :date_depart,
+                    date_arrivee      = :date_arrivee,
+                    places_total      = :places_total,
+                    places_dispo      = :places_dispo
+              WHERE id_trajet = :id_trajet'
+        );
+
+        return $stmt->execute([
+            'id_agence_depart'  => $data['id_agence_depart'],
+            'id_agence_arrivee' => $data['id_agence_arrivee'],
+            'date_depart'       => $data['date_depart'],
+            'date_arrivee'      => $data['date_arrivee'],
+            'places_total'      => $data['places_total'],
+            'places_dispo'      => $data['places_dispo'],
+            'id_trajet'         => $id,
+        ]);
+    }
+
+    /**
+     * Supprime un trajet.
+     *
+     * @return bool true si un trajet a ete supprime
+     */
+    public function delete(int $id): bool
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM trajet WHERE id_trajet = :id');
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->rowCount() > 0;
     }
 }
