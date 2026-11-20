@@ -1,2 +1,4 @@
 /public/assets/fonts/
 /public/assets/js/bootstrap.bundle.min.js
+/.phpunit.cache/
+/.phpunit.result.cache
